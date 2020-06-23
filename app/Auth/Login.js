@@ -6,13 +6,14 @@ import {
   ImageBackground,
   Dimensions,
   TextInput,
+  Button,
 } from 'react-native';
 import Animated, { Easing } from 'react-native-reanimated';
 import { TapGestureHandler, State } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
-const Login = () => {
+const Login = (props) => {
   const {
     Value,
     event,
@@ -206,7 +207,11 @@ const Login = () => {
             placeholderTextColo='black'
           />
           <Animated.View style={styles.button}>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Submit</Text>
+            <Button
+              onPress={() => props.navigation.navigate('Home')}
+              style={{ fontSize: 20, fontWeight: 'bold' }}
+              title='Submit'
+            />
           </Animated.View>
         </Animated.View>
       </View>
