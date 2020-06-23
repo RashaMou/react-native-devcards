@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StyleSheet } from 'react-native';
 import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
-import Login from './app/Auth/Login.js';
-import Home from './app/screens/Home';
-import AddDeck from './app/screens/AddDeck';
+import MainNavigator from './app/navigation/MainNavigator';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
@@ -36,18 +33,16 @@ export default function App() {
     );
   }
 
-  const Stack = createStackNavigator();
-
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name='Login'
-          component={Login}
-          options={{ headerShown: false }}
+    <Provider store={store}>
+      {isReady && (
+        <AppLoading
+          startAsync={_loadAssetsAsync}
+          onFinish={() => setIsReady(true)}
+          onError={console.warn}
         />
-        <Stack.Screen name='Home' component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      )}
+      <MainNavigator />
+    </Provider>
   );
 }
