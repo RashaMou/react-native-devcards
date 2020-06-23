@@ -199,12 +199,12 @@ const Login = (props) => {
           <TextInput
             placeholder='email'
             style={styles.textInput}
-            placeholderTextColo='black'
+            placeholderTextColor='black'
           />
           <TextInput
             placeholder='password'
             style={styles.textInput}
-            placeholderTextColo='black'
+            placeholderTextColor='black'
           />
           <Animated.View style={styles.button}>
             <Button

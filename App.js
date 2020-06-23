@@ -6,6 +6,7 @@ import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
 import Login from './app/Auth/Login.js';
 import Home from './app/screens/Home';
+import AddDeck from './app/screens/AddDeck';
 
 export default function App() {
   const [isReady, setIsReady] = useState(false);
