@@ -1,5 +1,13 @@
 import React, { useState } from 'react';
-import { TextInput, View, Button, StyleSheet, Modal } from 'react-native';
+import {
+  TextInput,
+  Text,
+  View,
+  Button,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+} from 'react-native';
 import { addDeck } from './decksSlice';
 import { connect } from 'react-redux';
 
@@ -23,6 +31,16 @@ const AddDeckModal = (props) => {
       >
         <View style={styles.background}>
           <View style={styles.modal}>
+            <Text
+              style={{
+                fontSize: 25,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                marginTop: 15,
+              }}
+            >
+              New Deck
+            </Text>
             <TextInput
               placeholder='Enter Deck Name'
               placeholderTextColor='rgba(0,0,0,0.2)'
@@ -31,8 +49,22 @@ const AddDeckModal = (props) => {
               onChangeText={(text) => setDeckName(text)}
               value={deckName}
             />
-            <Button onPress={() => handleSubmit(deckName)} title='Ok' />
-            <Button onPress={() => props.toggleModal()} title='Cancel' />
+
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                marginTop: 10,
+                marginBottom: 20,
+              }}
+            >
+              <TouchableOpacity onPress={() => props.toggleModal()}>
+                <Text style={{ fontSize: 20, color: 'red' }}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSubmit(deckName)}>
+                <Text style={{ fontSize: 20 }}>Ok</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -43,8 +75,7 @@ const AddDeckModal = (props) => {
 const styles = StyleSheet.create({
   modal: {
     width: 300,
-    backgroundColor: 'white',
-    padding: 20,
+    backgroundColor: 'rgb(242,242,247)',
     borderRadius: 8,
   },
   background: {
@@ -61,10 +92,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   input: {
-    borderWidth: 3,
+    borderWidth: 1,
     padding: 10,
     borderRadius: 5,
     borderColor: 'rgba(0,0,0,0.2)',
+    marginVertical: 10,
+    marginHorizontal: 20,
   },
 });
 

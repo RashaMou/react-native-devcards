@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import FloatingActionButton from '../components/FloatingActionButton';
+
 import AddDeckModal from './decks/AddDeckModal';
-import MyDecks from './decks/MyDecks';
+import DeckList from './decks/DeckList';
 
 const Home = (props) => {
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
-
   return (
     <View>
-      <TouchableOpacity onPress={() => toggleModal()}>
-        <Text>Add Deck</Text>
-      </TouchableOpacity>
-      <AddDeckModal toggleModal={toggleModal} isModalVisible={isModalVisible} />
-      <MyDecks />
+      <DeckList />
     </View>
   );
 };
