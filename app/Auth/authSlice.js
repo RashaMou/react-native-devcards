@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
-const url = 'http://localhost:5000/api';
+const url = 'http://localhost:5000/api/auth';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -14,6 +15,10 @@ const authSlice = createSlice({
     registerUserStart(state) {
       state.loading = true;
     },
+    registerUserSuccess(state, action) {
+      state.loading = false;
+      state.user = action.payload;
+    },
     registerUserError(state, action) {
       state.loading = false;
       state.error = action.payload;
@@ -21,16 +26,28 @@ const authSlice = createSlice({
   },
 });
 
-export const { registerUserStart, registerUserError } = authSlice.actions;
+export const {
+  registerUserStart,
+  registerUserSuccess,
+  registerUserError,
+} = authSlice.actions;
 
 export default authSlice.reducer;
 
-export const registerNewUser = (email, password) => async (dispatch) => {
+export const registerNewUser = (user) => async (dispatch) => {
   dispatch(registerUserStart());
   try {
-    const newUser = await axios.post(`${url}/login`, { email, password });
+    const newUser = await axios.post(`${url}/register`, user);
+    console.log('newuser', newUser);
     if (newUser) {
-      console.log(res.data);
+      dispatch(
+        registerUserSuccess({
+          id: newUser.data.id,
+          email: newUser.data.email,
+          name: newUser.data.name,
+        })
+      );
+      await SecureStore.setItemAsync('authToken', newUser.data.token);
     }
   } catch (error) {
     dispatch(registerUserError(error));

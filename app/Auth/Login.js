@@ -7,9 +7,10 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { registerNewUser } from './authSlice';
+import { registerNewUser, loginUser } from './authSlice';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,10 +23,12 @@ const Login = (props) => {
   });
   const [form, setForm] = useState('login');
 
-  const handleSubmit = () => {
-    console.log(email);
-    console.log('submit');
-    // props.loginUser({ email, password });
+  const handleRegister = () => {
+    props.registerNewUser(registerUser);
+  };
+
+  const handleLogin = () => {
+    props.loginUser(loginUser);
   };
 
   return (
@@ -49,96 +52,98 @@ const Login = (props) => {
           </View>
         </ImageBackground>
       </View>
-      <View style={{ height: height / 3, justifyContent: 'center' }}>
-        <View
-          style={{
-            height: height / 3,
-            ...StyleSheet.absoluteFill,
-            top: null,
-            justifyContent: 'center',
-            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-          }}
-        >
-          {form === 'login' ? (
-            <>
-              <TextInput
-                placeholder='email'
-                style={styles.textInput}
-                onChangeText={(text) =>
-                  setLoginUser({ ...loginUser, email: text })
-                }
-                value={loginUser.email}
-              />
-              <TextInput
-                placeholder='password'
-                style={styles.textInput}
-                onChangeText={(text) =>
-                  setLoginUser({ ...loginUser, password: text })
-                }
-                value={loginUser.password}
-              />
-              <TouchableOpacity
-                onPress={() => handleLogin()}
-                style={{ ...styles.button, backgroundColor: '#00bbb5' }}
-              >
-                <Text
-                  style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}
+      <KeyboardAvoidingView behavior='position'>
+        <View style={{ height: height / 3, justifyContent: 'center' }}>
+          <View
+            style={{
+              height: height / 3,
+              ...StyleSheet.absoluteFill,
+              top: null,
+              justifyContent: 'center',
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            }}
+          >
+            {form === 'login' ? (
+              <>
+                <TextInput
+                  placeholder='email'
+                  style={styles.textInput}
+                  onChangeText={(text) =>
+                    setLoginUser({ ...loginUser, email: text })
+                  }
+                  value={loginUser.email}
+                />
+                <TextInput
+                  placeholder='password'
+                  style={styles.textInput}
+                  onChangeText={(text) =>
+                    setLoginUser({ ...loginUser, password: text })
+                  }
+                  value={loginUser.password}
+                />
+                <TouchableOpacity
+                  onPress={() => handleLogin()}
+                  style={{ ...styles.button, backgroundColor: '#00bbb5' }}
                 >
-                  LOGIN
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setForm('signup')}>
-                <Text style={{ textAlign: 'center', marginTop: 10 }}>
-                  Sign up if you don't have an account
-                </Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <TextInput
-                placeholder='name'
-                style={styles.textInput}
-                onChangeText={(text) =>
-                  setRegisterUser({ ...registerUser, name: text })
-                }
-                value={registerUser.name}
-              />
-              <TextInput
-                placeholder='email'
-                style={styles.textInput}
-                onChangeText={(text) =>
-                  setRegisterUser({ ...registerUser, email: text })
-                }
-                value={registerUser.email}
-              />
-              <TextInput
-                placeholder='password'
-                style={styles.textInput}
-                placeholderTextColor='black'
-                onChangeText={(text) =>
-                  setRegisterUser({ ...registerUser, password: text })
-                }
-                value={registerUser.password}
-              />
-              <TouchableOpacity
-                onPress={() => handleRegister()}
-                style={{ ...styles.button, backgroundColor: '#008a90' }}
-              >
-                <Text
-                  style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}
+                  <Text
+                    style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}
+                  >
+                    LOGIN
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setForm('signup')}>
+                  <Text style={{ textAlign: 'center', marginTop: 10 }}>
+                    Sign up if you don't have an account
+                  </Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TextInput
+                  placeholder='name'
+                  style={styles.textInput}
+                  onChangeText={(text) =>
+                    setRegisterUser({ ...registerUser, name: text })
+                  }
+                  value={registerUser.name}
+                />
+                <TextInput
+                  placeholder='email'
+                  style={styles.textInput}
+                  onChangeText={(text) =>
+                    setRegisterUser({ ...registerUser, email: text })
+                  }
+                  value={registerUser.email}
+                />
+                <TextInput
+                  placeholder='password'
+                  style={styles.textInput}
+                  placeholderTextColor='black'
+                  onChangeText={(text) =>
+                    setRegisterUser({ ...registerUser, password: text })
+                  }
+                  value={registerUser.password}
+                />
+                <TouchableOpacity
+                  onPress={() => handleRegister()}
+                  style={{ ...styles.button, backgroundColor: '#008a90' }}
                 >
-                  SIGN UP
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setForm('login')}>
-                <Text style={{ textAlign: 'center', marginTop: 10 }}>
-                  Login if you have an account
-                </Text>
-              </TouchableOpacity>
-            </>
-          )}
+                  <Text
+                    style={{ fontSize: 20, fontWeight: 'bold', color: 'white' }}
+                  >
+                    SIGN UP
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setForm('login')}>
+                  <Text style={{ textAlign: 'center', marginTop: 10 }}>
+                    Login if you have an account
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 };
@@ -187,4 +192,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { registerNewUser })(Login);
+export default connect(null, { registerNewUser, loginUser })(Login);

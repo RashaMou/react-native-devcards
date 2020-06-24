@@ -27,6 +27,7 @@ export default function App() {
 
   useEffect(() => {
     checkForToken();
+    console.log(SecureStore.getItemAsync('authToken', {}));
   });
 
   const cacheImages = (images) => {
