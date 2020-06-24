@@ -32,7 +32,6 @@ const Login = (props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: 'white',
         justifyContent: 'flex-end',
       }}
     >
@@ -57,7 +56,7 @@ const Login = (props) => {
             ...StyleSheet.absoluteFill,
             top: null,
             justifyContent: 'center',
-            backgroundColor: 'white',
+            backgroundColor: 'rgba(255, 255, 255, 0.8)',
           }}
         >
           {form === 'login' ? (
