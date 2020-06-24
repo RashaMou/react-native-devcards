@@ -1,12 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { YellowBox } from 'react-native';
 import { Asset } from 'expo-asset';
 import { AppLoading } from 'expo';
-import MainNavigator from './app/navigation/MainNavigator';
+import * as SecureStore from 'expo-secure-store';
+import { BottomTabNavigator, AuthNavigator } from './app/navigation/';
+import { NavigationContainer } from '@react-navigation/native';
+
 import { Provider } from 'react-redux';
 import store from './store/store';
 
 export default function App() {
+  YellowBox.ignoreWarnings([
+    'Warning: componentWillReceiveProps',
+    'Warning: componentWillMount',
+  ]);
+
   const [isReady, setIsReady] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const checkForToken = async () => {
+    const token = await SecureStore.getItemAsync('authToken', {});
+    if (token) {
+      setIsSignedIn(true);
+    }
+  };
+
+  useEffect(() => {
+    checkForToken();
+  });
 
   const cacheImages = (images) => {
     return images.map((image) => {
@@ -42,7 +63,9 @@ export default function App() {
           onError={console.warn}
         />
       )}
-      <MainNavigator />
+      <NavigationContainer>
+        {isSignedIn ? <BottomTabNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
     </Provider>
   );
 }

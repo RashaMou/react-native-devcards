@@ -3,20 +3,23 @@ import {
   TextInput,
   Text,
   View,
-  Button,
   StyleSheet,
   Modal,
   TouchableOpacity,
 } from 'react-native';
-import { addDeck } from './decksSlice';
+import { addNewDeck } from './decksSlice';
 import { connect } from 'react-redux';
 
 const AddDeckModal = (props) => {
   const [deckName, setDeckName] = useState('');
 
   const handleSubmit = (text) => {
-    console.log('text', text);
-    props.addDeck(text);
+    props.addNewDeck(text);
+    props.toggleModal();
+    setDeckName('');
+  };
+
+  const handleCancel = () => {
     props.toggleModal();
     setDeckName('');
   };
@@ -58,7 +61,7 @@ const AddDeckModal = (props) => {
                 marginBottom: 20,
               }}
             >
-              <TouchableOpacity onPress={() => props.toggleModal()}>
+              <TouchableOpacity onPress={() => handleCancel()}>
                 <Text style={{ fontSize: 20, color: 'red' }}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleSubmit(deckName)}>
@@ -101,4 +104,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, { addDeck })(AddDeckModal);
+export default connect(null, { addNewDeck })(AddDeckModal);
